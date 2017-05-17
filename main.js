@@ -276,11 +276,12 @@ var lastpage = false;
 var bktitle="N.N";
 
 $( document ).ready(function(){
+    //Show the notification
     var lastScrollTop = 0;
     console.log("Enter Page");
 
     $(window).resize(function(){
-        handlePage(0);
+        handlePage(progress);
         if($('#lrbk_title').text()==""){
             $('#lrbk_title').html(bktitle.html());
         }
@@ -414,6 +415,22 @@ var rewritePage = function(wctn, startp) {
     $(document).unbind('keyup').bind('keyup', function(e){
         console.log(e.keyCode);
         //;
+        // Go to floor
+        if(e.keyCode==81){
+            var tofloor=prompt("请输入跳转页数","")
+            if(tofloor<1 || tofloor > pages){
+                if(tofloor<1) {
+                    ascensorInstance.scrollToFloor(0);    
+                }
+                if(tofloor>pages) {
+                    ascensorInstance.scrollToFloor(pages-1);    
+                }
+            } else {
+                ascensorInstance.scrollToFloor(parseInt(tofloor)-1);    
+            }
+        }
+
+
         if(e.keyCode==186){
             rTitle = document.getElementById('npage').contentWindow.document.head.getElementsByTagName("title")[0].innerHTML;
 			loadNextPage();
@@ -431,7 +448,7 @@ var rewritePage = function(wctn, startp) {
                 if(floor.to == $('.bb-item').length-1){
                     lastpage = true;
                 }
-                $('#currentindex').text(floor.to+1);
+                $('#currentindex').text(parseInt(floor.to)+1);
                 $('#totalindex').text(pages);
                 progress = (floor.to)/pages;
                 port.postMessage({type:"updatebk", rTitle: rTitle, cururl: cururl, progress:progress});
@@ -554,9 +571,14 @@ var rewritePage = function(wctn, startp) {
     if(startp!=0) {
         var curfloor = parseInt(startp*pages);
         ascensorInstance.scrollToFloor(curfloor);    
-        $('#currentindex').text(curfloor+1);
+        $('#currentindex').text(parseInt(curfloor)+1);
     }
     $('#gnContent').show();
+
+    $('body').append("<div id='hint'>';':下一章  'q':跳转页面 </div>");
+    setTimeout(function(){
+        $('#hint').hide();
+    }, 2000);
 
 };
 
@@ -571,7 +593,7 @@ var loadNextPage = function(){
 	// Get content from iframe
     cururl = $('#npage').prop('src');
 	handleContent(document.getElementById('npage').contentWindow.document.body.innerHTML);
-	rewritePage(targets); 
+	rewritePage(targets, 0); 
 };
 
 var judgePage = function(txt){
@@ -583,6 +605,7 @@ var judgePage = function(txt){
         MB:    Index     //Now ignored
         LB:    End
     */
+    console.log(targets);
 
   
     console.log("To judge if this page supposed to be one novel page    ... ... ");
