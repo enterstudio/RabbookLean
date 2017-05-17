@@ -23,12 +23,15 @@ function readPage(){
         console.log(curtab);
         root.rTitle = curtab.title;
         delayStop(function(){
+            chrome.tabs.insertCSS(tab[0].id, {file:"main.css"}, function(){});
             if(root.css==null || root.css==""){
-                chrome.tabs.insertCSS(tab[0].id, {file:"main.css"}, function(){});
+                console.log('no css');
             } else {
                 chrome.tabs.insertCSS(tab[0].id, {code:root.css}, function(){});
             }
-            chrome.tabs.executeScript(tab[0].id, {file:"main.js"},function(){});
+
+            chrome.tabs.executeScript(tab[0].id,  {file:"main.js"}, function(){});
+
             window.close();
         });
     });

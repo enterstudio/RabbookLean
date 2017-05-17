@@ -1,15 +1,7 @@
-body {
-    background:#fdfdfd!important;
+html {
+    height:100%;
 }
 
-#gnContent {
-    width:960px;
-    margin-left:auto;
-    margin-right:auto;
-    margin-top:80px;
-    margin-bottom:60px;
-    line-height:2em;
-}
 
 #lrbk_title {
     cursor:pointer;
@@ -25,7 +17,6 @@ body {
     padding-right:30px!important;
     top:-10px!important;
     opacity:1!important;
-    background: #fefefe!important;
     padding-top: 30px!important;
     padding-bottom: 10px!important;
     width:110%;
@@ -33,7 +24,7 @@ body {
    // font-family: Baskerville, Georgia, "Liberation Serif", "Kaiti SC", STKaiti, "AR PL UKai CN", "AR PL UKai HK", "AR PL UKai TW", "AR PL UKai TW MBE", "AR PL KaitiM GB", KaiTi, KaiTi_GB2312, "TW\-Kai", serif;
     font-family: Baskerville, "Times New Roman", "Liberation Serif", STFangsong, FangSong, FangSong_GB2312, "CWTEX\-F", serif;
     height: 30px;
-    background:#fefefe!important;
+    background: #f8f8f8!important;
 }
 
 
@@ -46,11 +37,7 @@ body {
 }
 
 #gnContent *{
-    max-width:960px!important;
-   // font-family: Baskerville, "Times New Roman", "Liberation Serif", STFangsong, FangSong, FangSong_GB2312, "CWTEX\-F", serif;
-    font-family: Baskerville, Georgia, "Liberation Serif", "Kaiti SC", STKaiti, "AR PL UKai CN", "AR PL UKai HK", "AR PL UKai TW", "AR PL UKai TW MBE", "AR PL KaitiM GB", KaiTi, KaiTi_GB2312, "TW\-Kai", serif;
-    font-size:20px;
-    line-height:2em;
+    //max-width:960px!important;
 }
 
 
@@ -58,7 +45,7 @@ body {
 #nav {
     position:fixed!important;
     right:0px;
-    bottom:10px;
+    bottom:0px;
     color: #fff!important;
     font-family: Baskerville, "Times New Roman", "Liberation Serif", STFangsong, FangSong, FangSong_GB2312, "CWTEX\-F", serif;
 }
@@ -85,3 +72,69 @@ body {
     text-align:right;
     width:120px;
 }
+
+
+body {
+    background:white;
+    height:100%;
+    overflow:hidden;
+}
+
+#gnContent  {
+    background: white;
+    font-family: Baskerville, Georgia, "Liberation Serif", "Kaiti SC", STKaiti, "AR PL UKai CN", "AR PL UKai HK", "AR PL UKai TW", "AR PL UKai TW MBE", "AR PL KaitiM GB", KaiTi, KaiTi_GB2312, DFKai-SB, "TW\-Kai", serif;
+    font-size:1.2rem;
+    color:black;
+    height:100%;
+    width:100%;
+    margin-left:auto;
+    margin-right:auto;
+    margin-top:80px;
+    line-height:1.4rem;
+    //max-width:960px!important;
+
+}
+
+#lrbk_title {
+    position:fixed;
+    left:0px;
+    top:20px;
+}
+
+#nav {
+}
+
+.bb-item p{
+    padding-left:40px;
+    padding-right:40px;
+}
+
+
+.bb-item.odd-page {
+    //background:#eeeeee;
+}
+
+
+.container,
+.bb-custom-wrapper,
+.bb-bookblock {
+	width: 100%;
+	height: 100%;
+}
+
+.container {
+	position: relative;
+	left: 0px;
+	transition: left 0.3s ease-in-out;
+}
+
+#indexinfo {
+    position:fixed;
+    right:20px;
+    top:30px;
+    font-size: 12px;
+    color: #AAA;
+    opacity: 0.4;
+    font-family: Baskerville, Georgia, "Liberation Serif", "Kaiti SC", STKaiti, "AR PL UKai CN", "AR PL UKai HK", "AR PL UKai TW", "AR PL UKai TW MBE", "AR PL KaitiM GB", KaiTi, KaiTi_GB2312, DFKai-SB, "TW\-Kai", serif;
+}
+

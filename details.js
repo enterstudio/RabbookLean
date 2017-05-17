@@ -38,8 +38,7 @@ $( document ).ready(function(){
         //Show:
     
         for(var i = 0; i< root.bklist.length; i++){
-            //var cstr = "<li><span class='linka' ind='"+i+"' href='"+root.bklist[i].cururl+"'>"+root.bklist[i].rTitle+"</span><span class='spanbut pin'>顶</span> <span class='spanbut del'>删</span></li>";
-            var cstr = "<li><span class='spanbut del'>删</span><span class='linka' ind='"+i+"' href='"+root.bklist[i].cururl+"'>"+root.bklist[i].rTitle+"</span></li>";
+            var cstr = "<li><span class='spanbut del'>删</span><span class='linka' ind='"+i+"' progress='"+root.bklist[i].curprog+"' href='"+root.bklist[i].cururl+"'>"+root.bklist[i].rTitle+"</span></li>";
             $('#bkmarks .bookmarks ul').append(cstr);
         }
 
@@ -65,6 +64,9 @@ $( document ).ready(function(){
             chrome.storage.local.set({'bookmarks':root.bklist}, function () {
                 console.info("Bookmarks Updated Done");
             });
+            //Open and injection
+            root.curpage = $(this).attr('href');
+            root.curprog = $(this).attr('progress');
             window.location = $(this).attr('href'); 
         });
     });

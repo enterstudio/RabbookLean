@@ -9,12 +9,50 @@
  var js = null;
  var indport = null;
 
+var curpage = null;
+var curprog = null;
 
 chrome.storage.local.get({'bookmarks':[]}, function (result) {
     bklist = result.bookmarks;
 });
 
+
+
+
 $( document ).ready(function(){
+    chrome.tabs.onUpdated.addListener(function(tid, cinfo, ctab) {
+        //Check if it's current tab 
+        if(curpage ==  ctab['url']) {
+            curpage = null;
+            rTitle = ctab['title'];
+            console.log(rTitle);
+            function delayStop(func){
+                chrome.tabs.get(tid, function(tb){
+                    if(tb.status!="complete") {
+                        chrome.tabs.executeScript(tb.id, {code:"window.stop();"},function(){});
+                        $('#readpage').html("Waiting");
+                        setTimeout(function(){
+                            delayStop(func);
+                        }, 1000);
+                    } else {
+                        $('#readpage').html("OK");
+                        func();
+                    }
+                });
+            };
+    
+            delayStop(function(){
+                chrome.tabs.insertCSS(tid, {file:"main.css"}, function(){});
+                if(css==null || css==""){
+                    console.log('no css');
+                } else {
+                    chrome.tabs.insertCSS(tid, {code:css}, function(){});
+                }
+    
+                chrome.tabs.executeScript(tid,  {file:"main.js"}, function(){});
+            });
+        }
+   });
 });
 
 chrome.runtime.onConnect.addListener(function(port){
@@ -29,13 +67,15 @@ chrome.runtime.onConnect.addListener(function(port){
             css = r.css;    
             js = r.js;    
             indport.postMessage({"type":"cfg", "clist":clist, "flist":flist, "nlist":nlist, "tlist":tlist, "css":css, "js":js});
-            indport.postMessage({"type":"go"});
+            indport.postMessage({"type":"go", "progress":curprog});
+            curprog = null;
         });
         indport.onMessage.addListener(function(msg){
             console.log(msg);
             if(msg.type=="updatebk"){
                 cururl = msg.cururl;
                 rTitle = msg.rTitle;
+                curprog= msg.progress;
                 indport.postMessage({"type":"cfg", "clist":clist, "flist":flist, "nlist":nlist, "tlist":tlist, "css":css, "js":js});
                 updateBookmarks();
             }
@@ -66,8 +106,6 @@ function updateBookmarks(){
         if(su1[su1.length-1] == "") su1.pop();
         if(su2[su2.length-1] == "") su2.pop();
         //length:
-        console.info(su1);
-        console.info(su2);
         if(su1.length!=su2.length){
             return false;
         } else {
@@ -84,15 +122,13 @@ function updateBookmarks(){
 
     //
     for(var i=0;i<bklist.length;i++){
-        console.log(bklist[i]);
-        console.log(cururl);
        if(sameNovel(bklist[i].cururl, cururl)){
             bklist = bklist.slice(0,i).concat(bklist.slice(i+1, bklist.length));
             break;
        }
     };
 
-    bklist.push({rTitle:rTitle, cururl:cururl});
+    bklist.push({rTitle:rTitle, cururl:cururl, curprog:curprog});
     chrome.storage.local.set({'bookmarks':bklist}, function () {
         console.info("Bookmarks Updated Done");
     });
